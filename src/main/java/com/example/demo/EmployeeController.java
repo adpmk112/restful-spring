@@ -35,21 +35,21 @@ public class EmployeeController {
 			.orElseThrow(() -> new EmployeeNotFoundException(id));
 	}
 	
-	@PutMapping("/employees")
+	@PutMapping("/employees/{id}")
 	Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
 		
 		return repository.findById(id)
 				.map(employee -> {
 					employee.setName(newEmployee.getName());
 					employee.setRole(newEmployee.getRole());
-					return repository.save(newEmployee);
+					return repository.save(employee);
 				})
 				.orElseGet(() ->{
 					return repository.save(newEmployee);
 				});
 	}
 	
-	@DeleteMapping("/employees")
+	@DeleteMapping("/employees/{id}")
 	void deleteEmployee(@PathVariable Long id) {
 		repository.deleteById(id);
 	}
